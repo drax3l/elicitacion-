@@ -1,0 +1,3276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SPINZ GYM - Sistema Completo de Elicitación</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3a86ff;
+            --secondary-color: #8338ec;
+            --success-color: #06d6a0;
+            --warning-color: #ffd166;
+            --danger-color: #ef476f;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+            --border-radius: 12px;
+            --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.7;
+            color: var(--dark-color);
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #121212 0%, #1e1e1e 100%);
+            color: #f0f0f0;
+        }
+
+        /* Header */
+        header {
+            background: var(--gradient);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            animation: slideDown 0.8s ease;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .gym-brand {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: logoPulse 3s infinite ease-in-out;
+        }
+
+        .logo-circle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+            transition: var(--transition);
+        }
+
+        .logo-circle:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+        }
+
+        .logo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: transparent;
+            display: block;
+            border-radius: 50%;
+            transition: var(--transition);
+        }
+
+        .logo-circle:hover img {
+            transform: rotate(5deg);
+        }
+
+        .logo-ring {
+            position: absolute;
+            width: 130%;
+            height: 130%;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            animation: logoRotate 15s infinite linear;
+        }
+
+        .logo-ring:nth-child(2) {
+            width: 150%;
+            height: 150%;
+            animation-duration: 20s;
+            animation-direction: reverse;
+        }
+
+        .gym-name h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: textGlow 3s infinite alternate;
+        }
+
+        .gym-name .tagline {
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .nav-container {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            max-width: 800px;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            backdrop-filter: blur(10px);
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+        }
+
+        .nav-btn.active {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .header-controls {
+            display: flex;
+            gap: 10px;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            color: white;
+            font-size: 1.2rem;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 40px 0;
+            animation: fadeIn 0.8s ease;
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Cards */
+        .section-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: var(--transition);
+            border-left: 5px solid var(--primary-color);
+        }
+
+        body.dark-mode .section-card {
+            background: #2d2d2d;
+            color: #f0f0f0;
+        }
+
+        .section-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        body.dark-mode .section-header {
+            border-bottom-color: #444;
+        }
+
+        .section-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 1.5rem;
+            color: white;
+            box-shadow: 0 4px 10px rgba(58, 134, 255, 0.3);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        body.dark-mode .section-title {
+            color: #6ea8ff;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--gray-color);
+            margin-top: 5px;
+        }
+
+        body.dark-mode .section-subtitle {
+            color: #aaa;
+        }
+
+        /* Paso 1: 5 Porqués */
+        .whys-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .why-item {
+            background: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            border-left: 4px solid var(--primary-color);
+            transition: var(--transition);
+            animation: slideInLeft 0.6s ease;
+        }
+
+        body.dark-mode .why-item {
+            background: #3a3a3a;
+        }
+
+        .why-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .why-question {
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .why-answer {
+            color: var(--dark-color);
+            padding-left: 25px;
+        }
+
+        body.dark-mode .why-answer {
+            color: #e0e0e0;
+        }
+
+        /* Paso 2: Historias de Usuario */
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .search-box {
+            display: flex;
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius) 0 0 var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        body.dark-mode .search-input {
+            background-color: #333;
+            border-color: #555;
+            color: #f0f0f0;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(58, 134, 255, 0.2);
+        }
+
+        .search-btn {
+            padding: 0 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .search-btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        .filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 30px;
+            background-color: white;
+            color: var(--gray-color);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 500;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        body.dark-mode .filter-btn {
+            background-color: #333;
+            color: #ddd;
+        }
+
+        .filter-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .story-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            transition: var(--transition);
+            animation: fadeInUp 0.6s ease;
+            position: relative;
+            overflow: hidden;
+            border-left: 4px solid var(--primary-color);
+            cursor: pointer;
+        }
+
+        body.dark-mode .story-card {
+            background-color: #333;
+            color: #f0f0f0;
+        }
+
+        .story-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .story-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .story-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .story-code {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .story-code::before {
+            content: '📋';
+            margin-right: 8px;
+        }
+
+        .story-text {
+            margin-bottom: 15px;
+            font-style: italic;
+            color: var(--dark-color);
+            line-height: 1.5;
+        }
+
+        body.dark-mode .story-text {
+            color: #f0f0f0;
+        }
+
+        .criteria-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--gray-color);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .criteria-list {
+            list-style-type: none;
+            margin-bottom: 15px;
+        }
+
+        .criteria-list li {
+            padding: 5px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .criteria-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        .priority {
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .priority.alta {
+            background-color: rgba(239, 71, 111, 0.15);
+            color: var(--danger-color);
+        }
+
+        .priority.media {
+            background-color: rgba(255, 209, 102, 0.15);
+            color: #d4a017;
+        }
+
+        /* Paso 6: Análisis - Matriz */
+        .matrix-container {
+            overflow-x: auto;
+            margin-top: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .matrix-table {
+            min-width: 1200px;
+            border-collapse: collapse;
+        }
+
+        .matrix-table th {
+            background: var(--gradient);
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            font-size: 0.9rem;
+            padding: 15px 10px;
+            position: sticky;
+            top: 0;
+        }
+
+        .matrix-table td {
+            padding: 12px 10px;
+            text-align: center;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        body.dark-mode .matrix-table td {
+            border-bottom-color: #444;
+        }
+
+        .criteria-cell {
+            font-weight: 600;
+            background: #f8f9fa;
+            text-align: left;
+        }
+
+        body.dark-mode .criteria-cell {
+            background: #3a3a3a;
+        }
+
+        .check-mark {
+            color: var(--success-color);
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .cross-mark {
+            color: var(--danger-color);
+            font-weight: bold;
+        }
+
+        /* Paso 7: Depuración y Priorización */
+        .sidebar {
+            width: 280px;
+            background-color: var(--secondary-color);
+            color: white;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .sidebar-header {
+            padding: 20px;
+            background-color: #2c3e50;
+            text-align: center;
+        }
+
+        .sidebar-header h2 {
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .sidebar-menu li {
+            position: relative;
+        }
+
+        .sidebar-menu a {
+            display: block;
+            padding: 15px 20px;
+            color: #bdc3c7;
+            text-decoration: none;
+            transition: all 0.3s;
+            border-left: 4px solid transparent;
+        }
+
+        .sidebar-menu a:hover, .sidebar-menu a.active {
+            background-color: #34495e;
+            color: white;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .sidebar-menu i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+
+        .step7-content {
+            margin-left: 280px;
+            padding: 30px;
+            transition: all 0.3s;
+        }
+
+        .step7-header {
+            height: 70px;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        body.dark-mode .step7-header {
+            background-color: #333;
+        }
+
+        .step7-header h1 {
+            color: var(--secondary-color);
+            font-size: 1.5rem;
+        }
+
+        body.dark-mode .step7-header h1 {
+            color: #6ea8ff;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 20px;
+            text-align: center;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
+        body.dark-mode .stat-card {
+            background: #333;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--gray-color);
+        }
+
+        .stat-mvp {
+            color: var(--success-color);
+        }
+
+        .stat-phase2 {
+            color: var(--warning-color);
+        }
+
+        .stat-phase3 {
+            color: #e67e22;
+        }
+
+        .stat-postergar {
+            color: #95a5a6;
+        }
+
+        .stat-eliminar {
+            color: var(--danger-color);
+        }
+
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        body.dark-mode .card {
+            background-color: #333;
+        }
+
+        .card-header {
+            background-color: var(--light-color);
+            padding: 15px 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        body.dark-mode .card-header {
+            background-color: #444;
+            border-bottom-color: #555;
+        }
+
+        .card-header h2 {
+            color: var(--secondary-color);
+            font-size: 1.3rem;
+        }
+
+        body.dark-mode .card-header h2 {
+            color: #6ea8ff;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        body.dark-mode th, body.dark-mode td {
+            border-bottom-color: #444;
+        }
+
+        th {
+            background-color: var(--light-color);
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        body.dark-mode th {
+            background-color: #444;
+            color: #6ea8ff;
+        }
+
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        body.dark-mode tr:hover {
+            background-color: #3a3a3a;
+        }
+
+        .priority-high {
+            background-color: rgba(231, 76, 60, 0.1);
+        }
+
+        .priority-medium {
+            background-color: rgba(243, 156, 18, 0.1);
+        }
+
+        .priority-low {
+            background-color: rgba(39, 174, 96, 0.1);
+        }
+
+        .decision-mvp {
+            color: var(--success-color);
+            font-weight: bold;
+        }
+
+        .decision-phase2 {
+            color: var(--warning-color);
+            font-weight: bold;
+        }
+
+        .decision-phase3 {
+            color: #e67e22;
+            font-weight: bold;
+        }
+
+        .decision-postergar {
+            color: #95a5a6;
+            font-weight: bold;
+        }
+
+        .decision-eliminar {
+            color: var(--danger-color);
+            font-weight: bold;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        body.dark-mode .search-box input {
+            background-color: #444;
+            border-color: #666;
+            color: white;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        select {
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: white;
+            font-size: 14px;
+        }
+
+        body.dark-mode select {
+            background-color: #444;
+            border-color: #666;
+            color: white;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #2980b9;
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+
+        .btn-danger:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-success {
+            background-color: var(--success-color);
+        }
+
+        .btn-success:hover {
+            background-color: #219653;
+        }
+
+        .btn-warning {
+            background-color: var(--warning-color);
+        }
+
+        .btn-warning:hover {
+            background-color: #e67e22;
+        }
+
+        /* Process Steps */
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #e0e0e0;
+            z-index: 1;
+        }
+
+        body.dark-mode .process-steps::before {
+            background: #444;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            flex: 1;
+        }
+
+        .step-circle {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #e0e0e0;
+            color: var(--gray-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        body.dark-mode .step-circle {
+            background: #444;
+            color: #aaa;
+        }
+
+        .step.active .step-circle {
+            background: var(--gradient);
+            color: white;
+            box-shadow: 0 4px 12px rgba(58, 134, 255, 0.4);
+            transform: scale(1.1);
+        }
+
+        .step.completed .step-circle {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .step-label {
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--gray-color);
+        }
+
+        body.dark-mode .step-label {
+            color: #aaa;
+        }
+
+        .step.active .step-label {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        body.dark-mode .step.active .step-label {
+            color: #6ea8ff;
+        }
+
+        .step.completed .step-label {
+            color: var(--success-color);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        body.dark-mode .modal-content {
+            background-color: #333;
+            color: #f0f0f0;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray-color);
+            transition: var(--transition);
+        }
+
+        .close-modal:hover {
+            color: var(--danger-color);
+            transform: scale(1.2);
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--success-color);
+            color: white;
+            padding: 15px 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            z-index: 1001;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideInRight 0.3s ease;
+        }
+
+        /* Animaciones */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes logoPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes logoRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes textGlow {
+            from { text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); }
+            to { text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.5); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .nav-container {
+                justify-content: center;
+            }
+            
+            .nav-btn {
+                font-size: 0.75rem;
+                padding: 6px 10px;
+            }
+            
+            .process-steps {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .process-steps::before {
+                display: none;
+            }
+            
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .gym-name h1 {
+                font-size: 1.8rem;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .section-icon {
+                margin-right: 0;
+                margin-bottom: 15px;
+            }
+            
+            .sidebar {
+                width: 70px;
+            }
+            
+            .sidebar-header h2, .sidebar-menu span {
+                display: none;
+            }
+            
+            .sidebar-menu i {
+                margin-right: 0;
+                font-size: 1.2rem;
+            }
+            
+            .step7-content {
+                margin-left: 70px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navegación Principal -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <div class="gym-brand">
+                    <div class="logo-container">
+                        <div class="logo-ring"></div>
+                        <div class="logo-ring"></div>
+                        <div class="logo-circle">
+                            <img src="img/imagen1.jpg" alt="Logo SPINZ GYM" style="width:100%;height:100%;object-fit:contain;border-radius:50%;">
+                        </div>
+                    </div>
+                    <div class="gym-name">
+                        <h1>SPINZ GYM FITNESS</h1>
+                        <div class="tagline">Sistema Completo de Elicitación</div>
+                    </div>
+                </div>
+                
+                <div class="nav-container">
+                    <button class="nav-btn active" data-tab="intro"><i class="fas fa-home"></i> Introducción</button>
+                    <button class="nav-btn" data-tab="step1"><i class="fas fa-question-circle"></i> Paso 1: 5 Porqués</button>
+                    <button class="nav-btn" data-tab="step2"><i class="fas fa-list"></i> Paso 2: 62 Historias</button>
+                    <button class="nav-btn" data-tab="step3"><i class="fas fa-cube"></i> Paso 3: Producto vs Proyecto</button>
+                    <button class="nav-btn" data-tab="step4"><i class="fas fa-cogs"></i> Paso 4: Funcionales vs No Funcionales</button>
+                    <button class="nav-btn" data-tab="step5"><i class="fas fa-search"></i> Paso 5: Análisis</button>
+                    <button class="nav-btn" data-tab="step6"><i class="fas fa-tasks"></i> Paso 6: Matriz de Análisis</button>
+                    <button class="nav-btn" data-tab="step7"><i class="fas fa-flag-checkered"></i> Paso 7: Depuración</button>
+                </div>
+                
+                <div class="header-controls">
+                    <button class="control-btn" id="darkModeToggle" title="Modo oscuro">🌙</button>
+                    <button class="control-btn" id="printBtn" title="Imprimir">🖨️</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="container">
+            <!-- Introducción -->
+            <div id="intro" class="tab-content active">
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <div>
+                            <h2 class="section-title">Sistema Completo de Elicitación de Requisitos</h2>
+                            <p class="section-subtitle">SPINZ GYM FITNESS - Proyecto de Desarrollo de Software</p>
+                        </div>
+                    </div>
+                    
+                    <p>Este sistema implementa el proceso completo de elicitación de requisitos según la Ficha de Trabajo N°11, abarcando los 7 pasos fundamentales para el desarrollo del sistema de gestión para el gimnasio SPINZ GYM FITNESS.</p>
+                    
+                    <div class="process-steps">
+                        <div class="step completed">
+                            <div class="step-circle">1</div>
+                            <div class="step-label">5 Porqués</div>
+                        </div>
+                        <div class="step completed">
+                            <div class="step-circle">2</div>
+                            <div class="step-label">62 Historias</div>
+                        </div>
+                        <div class="step completed">
+                            <div class="step-circle">3</div>
+                            <div class="step-label">Producto vs Proyecto</div>
+                        </div>
+                        <div class="step completed">
+                            <div class="step-circle">4</div>
+                            <div class="step-label">Funcionales vs No Funcionales</div>
+                        </div>
+                        <div class="step completed">
+                            <div class="step-circle">5</div>
+                            <div class="step-label">Análisis</div>
+                        </div>
+                        <div class="step active">
+                            <div class="step-circle">6</div>
+                            <div class="step-label">Matriz de Análisis</div>
+                        </div>
+                        <div class="step">
+                            <div class="step-circle">7</div>
+                            <div class="step-label">Depuración</div>
+                        </div>
+                    </div>
+                    
+                    <div class="stats">
+                        <div class="stat-card">
+                            <div class="stat-value">7</div>
+                            <div class="stat-label">Pasos Completados</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">62</div>
+                            <div class="stat-label">Historias de Usuario</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">50+</div>
+                            <div class="stat-label">Requisitos Identificados</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value">5</div>
+                            <div class="stat-label">Stakeholders</div>
+                        </div>
+                    </div>
+                    
+                    <div style="text-align: center; margin-top: 30px;">
+                        <button class="btn" id="startProcessBtn">Comenzar Proceso <i class="fas fa-arrow-right"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paso 1: 5 Porqués -->
+    <div id="step1" class="tab-content">
+    <div class="section-card">
+        <div class="section-header">
+            <div class="section-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <div>
+                <h2 class="section-title">Paso 1: Análisis con la Técnica de los 5 Porqués</h2>
+                <p class="section-subtitle">Identificación sistemática del problema raíz en el sistema actual de Spinz Gym</p>
+            </div>
+        </div>
+        
+        <!-- Descripción del Problema -->
+        <div class="problem-statement">
+            <div class="problem-header">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h3>Descripción Detallada del Problema</h3>
+            </div>
+            <div class="problem-content">
+                <p>El gimnasio Spinz Gym en Cusco enfrenta dificultades significativas para mantener una comunicación efectiva con sus clientes y gestionar eficientemente sus servicios. Actualmente, la interacción con socios se realiza de forma manual y desorganizada, lo que genera demoras críticas en la gestión de membresías, reservas y pagos.</p>
+                <p>Además, la falta de una herramienta tecnológica adecuada limita la fidelización y personalización del servicio, afectando directamente la competitividad del gimnasio frente a otras ofertas en el mercado de bienestar, especialmente en una ciudad con alta afluencia turística como Cusco.</p>
+            </div>
+        </div>
+        
+        <!-- Análisis de los 5 Porqués -->
+        <div class="whys-analysis">
+            <div class="analysis-header">
+                <i class="fas fa-project-diagram"></i>
+                <h3>Análisis Causa-Raíz: Los 5 Porqués</h3>
+            </div>
+            
+            <div class="whys-container">
+                <div class="why-item">
+                    <div class="why-number">1</div>
+                    <div class="why-content">
+                        <div class="why-question">
+                            <i class="fas fa-question-circle"></i>
+                            <span>¿Por qué ocurre una mala comunicación con los clientes?</span>
+                        </div>
+                        <div class="why-answer">
+                            <i class="fas fa-lightbulb"></i>
+                            <p>Los clientes necesariamente tienen que ir al establecimiento para saber la información de los servicios que ofrece o el tiempo que le queda para poder seguir asistiendo al gimnasio, por ende la comunicación con los clientes es un poco mala y deficiente.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="why-item">
+                    <div class="why-number">2</div>
+                    <div class="why-content">
+                        <div class="why-question">
+                            <i class="fas fa-question-circle"></i>
+                            <span>¿Por qué la interacción es manual y desorganizada?</span>
+                        </div>
+                        <div class="why-answer">
+                            <i class="fas fa-lightbulb"></i>
+                            <p>Spinz Gym no tiene implementado un sistema digital o algún software que le permita administrar u organizar de mejor manera todo sus procesos.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="why-item">
+                    <div class="why-number">3</div>
+                    <div class="why-content">
+                        <div class="why-question">
+                            <i class="fas fa-question-circle"></i>
+                            <span>¿Por qué, a pesar de ser un problema evidente, se mantiene este sistema manual?</span>
+                        </div>
+                        <div class="why-answer">
+                            <i class="fas fa-lightbulb"></i>
+                            <p>El gimnasio está en pleno ascenso ya que tiene 3 años en el mercado por ende el gimnasio no está priorizando la digitalización lo que es malo tanto para los clientes y el mismo gimnasio.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="why-item">
+                    <div class="why-number">4</div>
+                    <div class="why-content">
+                        <div class="why-question">
+                            <i class="fas fa-question-circle"></i>
+                            <span>¿Por qué hay demoras con los pagos?</span>
+                        </div>
+                        <div class="why-answer">
+                            <i class="fas fa-lightbulb"></i>
+                            <p>Actualmente, la mayoría de los métodos de pago son digitales, como billeteras electrónicas y transferencias bancarias. Sin embargo, en el caso de que un usuario requiera un comprobante de pago, Spinz Gym no cuenta con la opción de emitir uno en este momento. En ese caso, el pago tendría que realizarse en efectivo.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="why-item">
+                    <div class="why-number">5</div>
+                    <div class="why-content">
+                        <div class="why-question">
+                            <i class="fas fa-question-circle"></i>
+                            <span>¿Por qué no se ha priorizado esta inversión en herramientas tecnológicas?</span>
+                        </div>
+                        <div class="why-answer">
+                            <i class="fas fa-lightbulb"></i>
+                            <p>La implementación de tecnología en una organización es muy importante ya que los mantiene actualizados, pero el gimnasio Spinz Gym no cuenta con esta inversión. Los motivos por los cuales no se priorizó esa inversión son por la mala gestión del dinero y mal asesoramiento, que lo hace un poco desactualizado frente a sus competidores.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Conclusión del Análisis -->
+        <div class="analysis-conclusion">
+            <div class="conclusion-header">
+                <i class="fas fa-flag-checkered"></i>
+                <h3>Conclusión del Análisis</h3>
+            </div>
+            <div class="conclusion-content">
+                <p>El problema raíz identificado es la <strong>falta de un sistema digital integrado</strong> que permita automatizar y optimizar los procesos del gimnasio. Esta carencia genera una cadena de problemas secundarios que afectan la experiencia del cliente, la eficiencia operativa y la competitividad del negocio.</p>
+                <div class="key-findings">
+                    <div class="finding-item">
+                        <i class="fas fa-times-circle"></i>
+                        <span>Comunicación deficiente con clientes</span>
+                    </div>
+                    <div class="finding-item">
+                        <i class="fas fa-times-circle"></i>
+                        <span>Procesos manuales y desorganizados</span>
+                    </div>
+                    <div class="finding-item">
+                        <i class="fas fa-times-circle"></i>
+                        <span>Falta de priorización en digitalización</span>
+                    </div>
+                    <div class="finding-item">
+                        <i class="fas fa-times-circle"></i>
+                        <span>Problemas en gestión de pagos</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- Paso 2: 62 Historias de Usuario -->
+            <div id="step2" class="tab-content">
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-list"></i>
+                        </div>
+                        <div>
+                            <h2 class="section-title">Paso 2: 62 Historias de Usuario</h2>
+                            <p class="section-subtitle">Listado completo de requisitos candidatos identificados</p>
+                        </div>
+                    </div>
+                    
+                    <div class="search-container">
+                        <div class="search-box">
+                            <input type="text" class="search-input" id="searchInput" placeholder="Buscar historias...">
+                            <button class="search-btn" id="searchBtn">🔍</button>
+                        </div>
+                    </div>
+                    
+                    <div class="filters">
+                        <button class="filter-btn active" data-filter="all">Todas</button>
+                        <button class="filter-btn" data-filter="alta">Prioridad Alta</button>
+                        <button class="filter-btn" data-filter="media">Prioridad Media</button>
+                        <button class="filter-btn" id="sortBtn">Ordenar A-Z</button>
+                    </div>
+                    
+                    <div class="cards-grid" id="cardsContainer">
+                        <!-- Las tarjetas se generarán dinámicamente con JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+<!-- Paso 3: Producto vs Proyecto -->
+<div id="step3" class="tab-content">
+    <div class="section-card">
+        <div class="section-header">
+            <div class="section-icon">
+                <i class="fas fa-cube"></i>
+            </div>
+            <div>
+                <h2 class="section-title">Paso 3: Requisitos de Producto vs Requisitos de Proyecto</h2>
+                <p class="section-subtitle">Diferenciación y agrupación sistemática de requisitos</p>
+            </div>
+        </div>
+        
+        <div class="requirements-comparison">
+            <div class="requirements-column">
+                <div class="requirement-card product-card">
+                    <div class="card-header">
+                        <i class="fas fa-box"></i>
+                        <h3>Requisitos de Producto</h3>
+                        <span class="badge">¿QUÉ hace el sistema?</span>
+                    </div>
+                    <p class="card-description">Funcionalidades específicas que el software debe ofrecer:</p>
+                    
+                    <div class="requirement-category">
+                        <div class="category-header">
+                            <i class="fas fa-users"></i>
+                            <h4>Gestión de Usuarios y Accesos</h4>
+                        </div>
+                        <ul class="requirement-list">
+                            <li>Registro y autenticación de clientes (HU-001, HU-002)</li>
+                            <li>Roles diferenciados: cliente, entrenador, recepcionista, nutricionista, gerente, administrador</li>
+                            <li>Recuperación de contraseña</li>
+                            <li>Acceso biométrico (HU-022)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="requirement-category">
+                        <div class="category-header">
+                            <i class="fas fa-credit-card"></i>
+                            <h4>Gestión de Membresías y Pagos</h4>
+                        </div>
+                        <ul class="requirement-list">
+                            <li>Visualización y selección de planes (HU-003)</li>
+                            <li>Renovación y congelación de membresías (HU-010, HU-028)</li>
+                            <li>Registro de pagos y generación de comprobantes (HU-007, HU-016)</li>
+                            <li>Promociones y descuentos (HU-017, HU-048)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="requirement-category">
+                        <div class="category-header">
+                            <i class="fas fa-calendar-check"></i>
+                            <h4>Reservas y Asistencias</h4>
+                        </div>
+                        <ul class="requirement-list">
+                            <li>Reserva de clases y espacios (HU-004, HU-041, HU-058)</li>
+                            <li>Cancelación de reservas (HU-014)</li>
+                            <li>Control de aforo (HU-031)</li>
+                            <li>Registro de asistencias vía QR (HU-015)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="requirement-category">
+                        <div class="category-header">
+                            <i class="fas fa-chart-line"></i>
+                            <h4>Seguimiento y Personalización</h4>
+                        </div>
+                        <ul class="requirement-list">
+                            <li>Progreso físico y mediciones (HU-012, HU-024)</li>
+                            <li>Rutinas personalizadas (HU-021)</li>
+                            <li>Planes nutricionales (HU-011, HU-052)</li>
+                            <li>Recomendaciones de ejercicios (HU-030)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="requirement-category">
+                        <div class="category-header">
+                            <i class="fas fa-comments"></i>
+                            <h4>Comunicación y Engagement</h4>
+                        </div>
+                        <ul class="requirement-list">
+                            <li>Notificaciones por correo o WhatsApp (HU-004, HU-010)</li>
+                            <li>Chat interno (HU-029)</li>
+                            <li>Encuestas de satisfacción (HU-025)</li>
+                            <li>Sistema de logros y recompensas (HU-026)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="requirement-category">
+                        <div class="category-header">
+                            <i class="fas fa-chart-bar"></i>
+                            <h4>Gestión Interna y Reportes</h4>
+                        </div>
+                        <ul class="requirement-list">
+                            <li>Dashboard gerencial con métricas (HU-006, HU-033)</li>
+                            <li>Gestión de horarios de entrenadores (HU-009)</li>
+                            <li>Control de inventario (HU-013)</li>
+                            <li>Registro de incidencias (HU-019)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="requirement-category">
+                        <div class="category-header">
+                            <i class="fas fa-plus-circle"></i>
+                            <h4>Servicios Adicionales</h4>
+                        </div>
+                        <ul class="requirement-list">
+                            <li>Venta de productos (HU-020)</li>
+                            <li>Modo turista e idiomas (HU-047)</li>
+                            <li>Integración con apps de salud (HU-018)</li>
+                            <li>Realidad aumentada para ejercicios (HU-056)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="requirements-column">
+                <div class="requirement-card project-card">
+                    <div class="card-header">
+                        <i class="fas fa-project-diagram"></i>
+                        <h3>Requisitos de Proyecto</h3>
+                        <span class="badge">¿CÓMO se construye?</span>
+                    </div>
+                    <p class="card-description">Condiciones para el desarrollo, implementación y gestión:</p>
+                    
+                    <div class="requirement-category">
+                        <div class="category-header">
+                            <i class="fas fa-laptop-code"></i>
+                            <h4>Tecnológicos</h4>
+                        </div>
+                        <ul class="requirement-list">
+                            <li>Plataforma web responsive</li>
+                            <li>App móvil nativa/híbrida (iOS/Android)</li>
+                            <li>Integración con APIs externas:
+                                <ul class="sublist">
+                                    <li>WhatsApp</li>
+                                    <li>Pasarelas de pago</li>
+                                    <li>Google Fit / Apple Health</li>
+                                    <li>Biometría</li>
+                                </ul>
+                            </li>
+                            <li>Base de datos segura y escalable</li>
+                            <li>Sistema en la nube (AWS, Google Cloud)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="requirement-category">
+                        <div class="category-header">
+                            <i class="fas fa-shield-alt"></i>
+                            <h4>Seguridad</h4>
+                        </div>
+                        <ul class="requirement-list">
+                            <li>Autenticación de dos factores (opcional)</li>
+                            <li>Cifrado de datos personales y de pago</li>
+                            <li>Control de accesos por roles</li>
+                            <li>Cumplimiento Ley de Protección de Datos (Perú)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="requirement-category">
+                        <div class="category-header">
+                            <i class="fas fa-user-friends"></i>
+                            <h4>Usabilidad y Experiencia</h4>
+                        </div>
+                        <ul class="requirement-list">
+                            <li>Interfaz intuitiva y fácil de usar</li>
+                            <li>Soporte para idiomas (español e inglés)</li>
+                            <li>Accesibilidad para personas con discapacidad</li>
+                            <li>Tiempos de carga optimizados</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="requirement-category">
+                        <div class="category-header">
+                            <i class="fas fa-rocket"></i>
+                            <h4>Implementación y Despliegue</h4>
+                        </div>
+                        <ul class="requirement-list">
+                            <li>Fases de desarrollo iterativo (MVP)</li>
+                            <li>Pruebas piloto con clientes reales</li>
+                            <li>Capacitación al personal del gimnasio</li>
+                            <li>Migración gradual desde sistema manual</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="requirement-category">
+                        <div class="category-header">
+                            <i class="fas fa-chart-pie"></i>
+                            <h4>Métricas de Éxito</h4>
+                        </div>
+                        <ul class="requirement-list">
+                            <li>Reducción del 50% en tiempo de gestión</li>
+                            <li>Incremento del 30% en satisfacción del cliente</li>
+                            <li>Aumento del 20% en renovación de membresías</li>
+                            <li>80% de adopción en 6 meses</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="requirement-category">
+                        <div class="category-header">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            <h4>Restricciones</h4>
+                        </div>
+                        <ul class="requirement-list">
+                            <li><strong>Presupuesto máximo:</strong> S/ 35,000</li>
+                            <li><strong>Tiempo de desarrollo:</strong> 6-9 meses</li>
+                            <li>Equipo de desarrollo externo</li>
+                            <li>Compatibilidad con dispositivos móviles en Perú</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="comparison-summary">
+            <div class="summary-item">
+                <i class="fas fa-box"></i>
+                <div>
+                    <h4>Requisitos de Producto</h4>
+                    <p>Definen las funcionalidades y características del software final</p>
+                </div>
+            </div>
+            <div class="summary-item">
+                <i class="fas fa-project-diagram"></i>
+                <div>
+                    <h4>Requisitos de Proyecto</h4>
+                    <p>Establecen condiciones y restricciones del proceso de desarrollo</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- Paso 4: Funcionales vs No Funcionales -->
+<!-- Paso 4: Funcionales vs No Funcionales -->
+<div id="step4" class="tab-content">
+    <div class="section-card">
+        <div class="section-header">
+            <div class="section-icon">
+                <i class="fas fa-cogs"></i>
+            </div>
+            <div>
+                <h2 class="section-title">Paso 4: Requisitos Funcionales vs No Funcionales</h2>
+                <p class="section-subtitle">Clasificación detallada de las capacidades y características del sistema</p>
+            </div>
+        </div>
+        
+        <div class="comparison-container">
+            <div class="requirements-column">
+                <div class="requirement-card functional">
+                    <div class="card-header">
+                        <i class="fas fa-code"></i>
+                        <h3>Requisitos Funcionales</h3>
+                        <span class="badge">¿QUÉ hace el sistema?</span>
+                    </div>
+                    <p class="card-description">Capacidades y comportamientos específicos del software</p>
+                    
+                    <div class="requirements-grid">
+                        <div class="feature-item">
+                            <i class="fas fa-users"></i>
+                            <div>
+                                <h4>Gestión de Usuarios</h4>
+                                <p>Registro, autenticación y perfiles de usuarios</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <i class="fas fa-calendar-check"></i>
+                            <div>
+                                <h4>Sistema de Reservas</h4>
+                                <p>Reserva de clases, espacios y control de asistencia</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <i class="fas fa-credit-card"></i>
+                            <div>
+                                <h4>Gestión de Membresías</h4>
+                                <p>Tipos de membresías, pagos y renovaciones</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <i class="fas fa-chart-line"></i>
+                            <div>
+                                <h4>Seguimiento y Progreso</h4>
+                                <p>Monitoreo de métricas físicas y personalización</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <i class="fas fa-bullhorn"></i>
+                            <div>
+                                <h4>Comunicación</h4>
+                                <p>Notificaciones, recordatorios y engagement</p>
+                            </div>
+                        </div>
+                        
+                        <div class="feature-item">
+                            <i class="fas fa-chart-bar"></i>
+                            <div>
+                                <h4>Reportes y Analytics</h4>
+                                <p>Generación de informes y métricas de negocio</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="requirements-column">
+                <div class="requirement-card non-functional">
+                    <div class="card-header">
+                        <i class="fas fa-sliders-h"></i>
+                        <h3>Requisitos No Funcionales</h3>
+                        <span class="badge">¿CÓMO lo hace?</span>
+                    </div>
+                    <p class="card-description">Atributos de calidad y restricciones del sistema</p>
+                    
+                    <div class="requirements-grid">
+                        <div class="spec-item">
+                            <div class="spec-icon performance">
+                                <i class="fas fa-tachometer-alt"></i>
+                            </div>
+                            <div>
+                                <h4>Rendimiento</h4>
+                                <p>Tiempo de respuesta < 3 segundos</p>
+                            </div>
+                        </div>
+                        
+                        <div class="spec-item">
+                            <div class="spec-icon security">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div>
+                                <h4>Seguridad</h4>
+                                <p>Cifrado de datos y autenticación robusta</p>
+                            </div>
+                        </div>
+                        
+                        <div class="spec-item">
+                            <div class="spec-icon usability">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div>
+                                <h4>Usabilidad</h4>
+                                <p>Interfaz intuitiva y experiencia de usuario fluida</p>
+                            </div>
+                        </div>
+                        
+                        <div class="spec-item">
+                            <div class="spec-icon reliability">
+                                <i class="fas fa-server"></i>
+                            </div>
+                            <div>
+                                <h4>Fiabilidad</h4>
+                                <p>99.5% de disponibilidad y recuperación ante fallos</p>
+                            </div>
+                        </div>
+                        
+                        <div class="spec-item">
+                            <div class="spec-icon scalability">
+                                <i class="fas fa-expand-arrows-alt"></i>
+                            </div>
+                            <div>
+                                <h4>Escalabilidad</h4>
+                                <p>Soporte para 1000+ usuarios concurrentes</p>
+                            </div>
+                        </div>
+                        
+                        <div class="spec-item">
+                            <div class="spec-icon compatibility">
+                                <i class="fas fa-laptop"></i>
+                            </div>
+                            <div>
+                                <h4>Compatibilidad</h4>
+                                <p>Funcionamiento en múltiples dispositivos y navegadores</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="summary-box">
+            <h4><i class="fas fa-lightbulb"></i> Resumen de Diferencias</h4>
+            <div class="summary-content">
+                <div class="summary-item">
+                    <strong>Funcionales:</strong> Definen las funciones específicas que el sistema debe realizar
+                </div>
+                <div class="summary-item">
+                    <strong>No Funcionales:</strong> Especifican los criterios de calidad y las restricciones de operación
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+            <!-- Paso 5: Análisis de Requisitos -->
+            <div id="step5" class="tab-content">
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-search"></i>
+                        </div>
+                        <div>
+                            <h2 class="section-title">Paso 5: Análisis de Requisitos</h2>
+                            <p class="section-subtitle">Evaluación de propiedades y calidad de los requisitos</p>
+                        </div>
+                    </div>
+                    
+                    <p>El análisis de requisitos busca comprender el significado y las implicaciones de los requisitos candidatos, tanto individualmente como en el contexto del conjunto completo.</p>
+                    
+                    <div style="margin: 25px 0;">
+                        <h3 style="color: var(--primary-color); margin-bottom: 15px;">Propiedades Deseables de los Requisitos</h3>
+                        
+                        <div class="requirements-grid">
+                            <div class="requirement-card">
+                                <div class="requirement-title"><i class="fas fa-check-circle"></i> Calidad Básica</div>
+                                <ul class="requirement-list">
+                                    <li>Sin ambigüedad</li>
+                                    <li>Testeables</li>
+                                    <li>Vinculantes</li>
+                                    <li>Representan necesidades reales</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="requirement-card">
+                                <div class="requirement-title"><i class="fas fa-users"></i> Stakeholders</div>
+                                <ul class="requirement-list">
+                                    <li>Usan vocabulario de stakeholders</li>
+                                    <li>Aceptables para todos</li>
+                                    <li>Completos (condiciones, excepciones)</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="requirement-card">
+                                <div class="requirement-title"><i class="fas fa-link"></i> Consistencia</div>
+                                <ul class="requirement-list">
+                                    <li>Internamente consistentes</li>
+                                    <li>Externamente consistentes</li>
+                                    <li>Factibles técnicamente</li>
+                                    <li>Rentables económicamente</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paso 6: Matriz de Análisis -->
+            <div id="step6" class="tab-content">
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div>
+                            <h2 class="section-title">Paso 6: Matriz de Análisis de Requisitos</h2>
+                            <p class="section-subtitle">Evaluación sistemática de las propiedades de los requisitos</p>
+                        </div>
+                    </div>
+                    
+                    <p>Esta matriz evalúa cada historia de usuario según las propiedades deseables de los requisitos, identificando áreas de mejora y consistencia.</p>
+                    
+                    <div class="matrix-container">
+                        <table class="matrix-table">
+                            <thead>
+                                <tr>
+                                    <th>Historia</th>
+                                    <th>Sin ambigüedad</th>
+                                    <th>Testeable</th>
+                                    <th>Vinculante</th>
+                                    <th>Representa necesidades reales</th>
+                                    <th>Usa vocabulario stakeholders</th>
+                                    <th>Aceptable para todos</th>
+                                    <th>Completo</th>
+                                    <th>Consistente</th>
+                                    <th>Factible</th>
+                                </tr>
+                            </thead>
+                            <tbody id="matrixBody">
+                                <!-- La matriz se generará con JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Paso 7: Depuración y Priorización -->
+            <div id="step7" class="tab-content">
+                <!-- INICIO DASHBOARD Y SCRIPT DEL USUARIO (SOLO CONTENIDO RELEVANTE) -->
+                <div class="step7-header">
+                    <h1>Paso 7: Depuración y Priorización de Requisitos</h1>
+                    <p class="step-subtitle">Sistema de Gestión de Requisitos - SPINZ GYM FITNESS</p>
+                </div>
+                <div class="stats">
+                    <div class="stat-card" data-filter="all">
+                        <h3>Total Historias</h3>
+                        <div class="stat-value">62</div>
+                        <p>Historias de usuario</p>
+                    </div>
+                    <div class="stat-card" data-filter="mvp">
+                        <h3>MVP</h3>
+                        <div class="stat-value stat-mvp" id="mvpCount">9</div>
+                        <p>Para incluir en el MVP</p>
+                    </div>
+                    <div class="stat-card" data-filter="important">
+                        <h3>Importantes</h3>
+                        <div class="stat-value stat-phase2" id="importantCount">17</div>
+                        <p>Alta prioridad</p>
+                    </div>
+                    <div class="stat-card" data-filter="phase2">
+                        <h3>Fase 2</h3>
+                        <div class="stat-value stat-phase2" id="phase2Count">24</div>
+                        <p>Para segunda fase</p>
+                    </div>
+                    <div class="stat-card" data-filter="phase3">
+                        <h3>Fase 3</h3>
+                        <div class="stat-value stat-phase3" id="phase3Count">24</div>
+                        <p>Para tercera fase</p>
+                    </div>
+                    <div class="stat-card" data-filter="postponed">
+                        <h3>Postergar</h3>
+                        <div class="stat-value stat-postergar" id="postergarCount">4</div>
+                        <p>Para postergar</p>
+                    </div>
+                    <div class="stat-card" data-filter="eliminated">
+                        <h3>Eliminar</h3>
+                        <div class="stat-value stat-eliminar" id="eliminarCount">1</div>
+                        <p>Para eliminar</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Resumen de Priorización</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>Este dashboard muestra el estado actual de las 62 historias de usuario y su priorización según los criterios establecidos.</p>
+                        <p>Utilice las diferentes secciones del menú para gestionar los requisitos según las necesidades del proyecto.</p>
+                        <div class="priority-calculator">
+                            <h3>Calculadora de Prioridad</h3>
+                            <div class="formula">
+                                Prioridad de Costo = (Valor * (1 - Riesgo))
+                            </div>
+                            <div class="calculator-controls">
+                                <div>
+                                    <label for="valorInput">Valor (1-10)</label>
+                                    <input type="number" id="valorInput" min="1" max="10" value="8">
+                                </div>
+                                <div>
+                                    <label for="riesgoInput">Riesgo (0-1)</label>
+                                    <input type="number" id="riesgoInput" min="0" max="1" step="0.1" value="0.3">
+                                </div>
+                                <div>
+                                    <label for="costoInput">Costo (1-10)</label>
+                                    <input type="number" id="costoInput" min="1" max="10" value="5">
+                                </div>
+                            </div>
+                            <button class="btn" id="calculateBtn">Calcular Prioridad</button>
+                            <div class="calculator-result" id="calculatorResult">
+                                Resultado: -
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <script>
+                    // ...el script JS del usuario, encapsulado para Paso 7...
+                    document.getElementById('calculateBtn').addEventListener('click', function() {
+                        const valor = parseFloat(document.getElementById('valorInput').value);
+                        const riesgo = parseFloat(document.getElementById('riesgoInput').value);
+                        const costo = parseFloat(document.getElementById('costoInput').value);
+                        const prioridad = valor * (1 - riesgo);
+                        document.getElementById('calculatorResult').textContent = `Resultado: ${prioridad.toFixed(2)}`;
+                    });
+                </script>
+                <!-- FIN DASHBOARD Y SCRIPT DEL USUARIO (SOLO CONTENIDO RELEVANTE) -->
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-list"></i> Todas las Historias de Usuario (62)</h2>
+                    <div class="header-actions">
+                        <button class="btn btn-sm" id="bulkEdit">
+                            <i class="fas fa-edit"></i> Edición Múltiple
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="controls">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="allStoriesSearch" placeholder="Buscar en historias...">
+                        </div>
+                        <div class="filters">
+                            <select id="allStoriesPriorityFilter">
+                                <option value="all">Todas las prioridades</option>
+                                <option value="mvp">MVP</option>
+                                <option value="important">Importantes</option>
+                                <option value="phase2">Fase 2</option>
+                                <option value="phase3">Fase 3</option>
+                                <option value="postergar">Postergar</option>
+                                <option value="eliminar">Eliminar</option>
+                            </select>
+                            <select id="allStoriesSort">
+                                <option value="priority">Ordenar por Prioridad</option>
+                                <option value="value">Ordenar por Valor</option>
+                                <option value="cost">Ordenar por Costo</option>
+                                <option value="id">Ordenar por ID</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <table id="allStoriesTable">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Historia de Usuario</th>
+                                    <th>Valor</th>
+                                    <th>Deseabilidad</th>
+                                    <th>Costo</th>
+                                    <th>Riesgo Técnico</th>
+                                    <th>Riesgo No Uso</th>
+                                    <th>Prioridad Final</th>
+                                    <th>Decisión</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="allStoriesTableBody">
+                                <!-- Las filas se generarán con JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table-footer">
+                        <div class="pagination">
+                            <button class="btn btn-sm" id="prevPage">
+                                <i class="fas fa-chevron-left"></i> Anterior
+                            </button>
+                            <span id="pageInfo">Página 1 de 7</span>
+                            <button class="btn btn-sm" id="nextPage">
+                                Siguiente <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <div class="summary">
+                            Mostrando <span id="visibleCount">10</span> de 62 historias
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pestañas adicionales del Paso 7 -->
+        <div id="mvp-stories" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-rocket"></i> Historias MVP</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Historia de Usuario</th>
+                                    <th>Prioridad</th>
+                                </tr>
+                            </thead>
+                            <tbody id="mvpStoriesTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="important-stories" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-star"></i> Historias Importantes</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Historia de Usuario</th>
+                                    <th>Prioridad</th>
+                                </tr>
+                            </thead>
+                            <tbody id="importantStoriesTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="phase2-stories" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-forward"></i> Historias Fase 2</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Historia de Usuario</th>
+                                    <th>Prioridad</th>
+                                </tr>
+                            </thead>
+                            <tbody id="phase2StoriesTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="phase3-stories" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-fast-forward"></i> Historias Fase 3</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Historia de Usuario</th>
+                                    <th>Prioridad</th>
+                                </tr>
+                            </thead>
+                            <tbody id="phase3StoriesTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="postponed-stories" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-pause-circle"></i> Historias Postergadas</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Historia de Usuario</th>
+                                    <th>Prioridad</th>
+                                </tr>
+                            </thead>
+                            <tbody id="postponedStoriesTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="eliminated-stories" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2><i class="fas fa-trash-alt"></i> Historias Eliminadas</h2>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Historia de Usuario</th>
+                                    <th>Prioridad</th>
+                                </tr>
+                            </thead>
+                            <tbody id="eliminatedStoriesTableBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Modal para mostrar detalles de la historia -->
+    <div class="modal" id="storyModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <div id="modalContent">
+                <!-- Contenido del modal se llenará con JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast para notificaciones -->
+    <div class="toast" id="toast" style="display: none;"></div>
+
+    <script>
+        // Datos completos de las 62 historias de usuario
+        const userStories = [
+            // Historias originales (1-12)
+            {
+                code: "HU-001",
+                story: "Como cliente nuevo, quiero registrarme desde la página web para poder acceder a los servicios del gimnasio.",
+                criteria: [
+                    "El formulario solicita datos personales básicos.",
+                    "Se valida que el correo no esté registrado.",
+                    "Se envía confirmación al correo del usuario."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-002",
+                story: "Como cliente activo, quiero iniciar sesión desde la web para acceder a mi perfil y mis reservas.",
+                criteria: [
+                    "Se valida usuario y contraseña.",
+                    "Se permite recuperación de contraseña.",
+                    "Redirige al panel según el tipo de usuario."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-003",
+                story: "Como cliente, quiero ver los planes de membresía disponibles para elegir el que más se adapte a mí.",
+                criteria: [
+                    "Se muestran precios, duración y beneficios.",
+                    "Se diferencia membresía local y turista.",
+                    "Opción de pago presencial o digital."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-004",
+                story: "Como cliente, quiero reservar una clase desde la web para asegurar mi cupo.",
+                criteria: [
+                    "Muestra horarios y número de vacantes.",
+                    "No permite reservar si la membresía está vencida.",
+                    "Envía confirmación al correo o WhatsApp."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-005",
+                story: "Como entrenador, quiero ver la lista de alumnos inscritos en mis clases para organizar mejor mis sesiones.",
+                criteria: [
+                    "Lista visible en el sistema interno.",
+                    "Se puede ver historial del cliente.",
+                    "Acceso restringido por rol."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-006",
+                story: "Como gerente, quiero ver estadísticas generales de asistencia y membresías activas para tomar decisiones.",
+                criteria: [
+                    "Reportes gráficos automáticos.",
+                    "Filtros por fecha y tipo de membresía.",
+                    "Acceso solo a roles directivos."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-007",
+                story: "Como recepcionista, quiero registrar pagos en el sistema interno para mantener el control contable.",
+                criteria: [
+                    "Registro de monto, tipo de pago y cliente.",
+                    "Generación automática de recibo.",
+                    "Se actualiza el estado de la membresía."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-008",
+                story: "Como cliente turista, quiero inscribirme por días o semanas sin contrato para usar el gimnasio mientras estoy en la ciudad.",
+                criteria: [
+                    "Planes cortos visibles en la web.",
+                    "Pago rápido en línea o recepción.",
+                    "Código QR temporal de acceso."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-009",
+                story: "Como administrador, quiero gestionar los horarios de los entrenadores para evitar conflictos de agenda.",
+                criteria: [
+                    "Calendario editable interno.",
+                    "Notificaciones a los entrenadores.",
+                    "Restricción de solapamientos."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-010",
+                story: "Como cliente, quiero recibir alertas cuando mi membresía esté por vencer para poder renovarla.",
+                criteria: [
+                    "Notificaciones por correo o WhatsApp.",
+                    "Avisos automáticos 7 y 2 días antes.",
+                    "Acceso directo a renovación."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-011",
+                story: "Como nutricionista, quiero registrar planes alimenticios personalizados para cada cliente desde el sistema interno.",
+                criteria: [
+                    "Asociación cliente–plan.",
+                    "Edición por profesional autorizado.",
+                    "Descarga en PDF para el cliente."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-012",
+                story: "Como cliente, quiero ver mi progreso (peso, medidas, rutinas) desde mi perfil para monitorear mis avances.",
+                criteria: [
+                    "Datos actualizados por entrenador.",
+                    "Gráficas comparativas.",
+                    "Histórico con fechas."
+                ],
+                priority: "media"
+            },
+            // Nuevas historias (13-62)
+            {
+                code: "HU-013",
+                story: "Como administrador, quiero gestionar los inventarios de productos deportivos y suplementos para controlar stock.",
+                criteria: [
+                    "Sistema de alertas por stock bajo.",
+                    "Registro de entradas y salidas.",
+                    "Reportes de productos más vendidos."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-014",
+                story: "Como cliente, quiero poder cancelar una reserva de clase con al menos 2 horas de anticipación para liberar mi cupo.",
+                criteria: [
+                    "Confirmación de cancelación inmediata.",
+                    "Notificación al entrenador.",
+                    "Liberación automática del cupo."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-015",
+                story: "Como entrenador, quiero registrar las asistencias a mis clases para llevar control de frecuencia de los clientes.",
+                criteria: [
+                    "Scanner de código QR de membresía.",
+                    "Registro automático en historial del cliente.",
+                    "Reportes de asistencia por clase."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-016",
+                story: "Como cliente, quiero poder ver mi historial de pagos y descargar comprobantes para mis registros personales.",
+                criteria: [
+                    "Visualización cronológica de pagos.",
+                    "Filtros por fecha y tipo de pago.",
+                    "Descarga en PDF de comprobantes."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-017",
+                story: "Como gerente, quiero gestionar promociones especiales por temporada para atraer más clientes.",
+                criteria: [
+                    "Configuración de fechas y condiciones.",
+                    "Aplicación automática en sistema de pagos.",
+                    "Reportes de efectividad de promociones."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-018",
+                story: "Como cliente, quiero poder conectar mi app de fitness (Google Fit, Apple Health) para sincronizar mis actividades.",
+                criteria: [
+                    "Autorización de permisos de sincronización.",
+                    "Sincronización automática de datos.",
+                    "Visualización de datos integrados."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-019",
+                story: "Como recepcionista, quiero registrar incidencias o accidentes en el gimnasio para mantener un historial de seguridad.",
+                criteria: [
+                    "Formulario de registro de incidencias.",
+                    "Clasificación por tipo y gravedad.",
+                    "Notificación automática a gerencia."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-020",
+                story: "Como cliente, quiero poder comprar productos del gimnasio (suplementos, ropa) desde la web y recogerlos en recepción.",
+                criteria: [
+                    "Catálogo de productos disponible.",
+                    "Carrito de compras funcional.",
+                    "Notificación de productos listos para recoger."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-021",
+                story: "Como entrenador, quiero crear rutinas personalizadas para mis clientes y compartirlas digitalmente.",
+                criteria: [
+                    "Editor de rutinas con ejercicios predefinidos.",
+                    "Compartir por correo o código QR.",
+                    "Seguimiento de progreso integrado."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-022",
+                story: "Como administrador, quiero gestionar los accesos biométricos para controlar la entrada al gimnasio.",
+                criteria: [
+                    "Registro de huellas dactilares.",
+                    "Integración con sistema de membresías.",
+                    "Reportes de accesos por horarios."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-023",
+                story: "Como cliente, quiero poder ver la disponibilidad de máquinas en tiempo real para planificar mi entrenamiento.",
+                criteria: [
+                    "Sistema de sensores en máquinas clave.",
+                    "Mapa interactivo del gimnasio.",
+                    "Tiempos estimados de espera."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-024",
+                story: "Como nutricionista, quiero llevar un control de las mediciones corporales de mis clientes para ajustar sus planes.",
+                criteria: [
+                    "Registro de peso, medidas y porcentaje graso.",
+                    "Gráficas de evolución.",
+                    "Alertas por cambios significativos."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-025",
+                story: "Como gerente, quiero un sistema de encuestas de satisfacción para medir la calidad de nuestros servicios.",
+                criteria: [
+                    "Encuestas automáticas tras uso de servicios.",
+                    "Métricas de satisfacción por área.",
+                    "Alertas por puntuaciones bajas."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-026",
+                story: "Como cliente, quiero un sistema de logros y recompensas por mi constancia para mantenerme motivado.",
+                criteria: [
+                    "Sistema de puntos por asistencia.",
+                    "Badges por metas alcanzadas.",
+                    "Recompensas canjeables (clases gratis, productos)."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-027",
+                story: "Como administrador, quiero gestionar mantenimientos preventivos de equipos para garantizar su funcionamiento.",
+                criteria: [
+                    "Calendario de mantenimientos programados.",
+                    "Alertas por mantenimientos pendientes.",
+                    "Historial de mantenimientos por equipo."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-028",
+                story: "Como cliente, quiero poder congelar mi membresía por viajes o enfermedad sin perder los días restantes.",
+                criteria: [
+                    "Solicitud online con justificación.",
+                    "Aprobación administrativa rápida.",
+                    "Reactivación automática tras el período."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-029",
+                story: "Como entrenador, quiero un chat interno para comunicarme con otros entrenadores y la administración.",
+                criteria: [
+                    "Chat grupal e individual.",
+                    "Notificaciones en tiempo real.",
+                    "Historial de conversaciones."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-030",
+                story: "Como cliente, quiero un sistema de recomendación de ejercicios basado en mis objetivos y condición física.",
+                criteria: [
+                    "Cuestionario inicial de objetivos.",
+                    "Recomendaciones personalizadas.",
+                    "Ajuste automático según progreso."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-031",
+                story: "Como recepcionista, quiero un sistema de control de aforo para cumplir con regulaciones de capacidad.",
+                criteria: [
+                    "Contador en tiempo real de personas.",
+                    "Alertas cuando se aproxime al límite.",
+                    "Reportes de horas pico."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-032",
+                story: "Como cliente, quiero poder agendar sesiones personalizadas con un entrenador específico.",
+                criteria: [
+                    "Visualización de disponibilidad de entrenadores.",
+                    "Sistema de pagos por sesiones individuales.",
+                    "Recordatorios automáticos."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-033",
+                story: "Como gerente, quiero un dashboard financiero para monitorear ingresos, gastos y rentabilidad.",
+                criteria: [
+                    "Métricas clave de negocio.",
+                    "Comparativas mes a mes.",
+                    "Proyecciones basadas en tendencias."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-034",
+                story: "Como cliente, quiero un sistema de recordatorios para no olvidar mis sesiones de entrenamiento.",
+                criteria: [
+                    "Notificaciones push personalizables.",
+                    "Recordatorios de rutinas pendientes.",
+                    "Integración con calendario personal."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-035",
+                story: "Como administrador, quiero gestionar contenidos del blog del gimnasio para engagement con clientes.",
+                criteria: [
+                    "Editor de contenidos intuitivo.",
+                    "Programación de publicaciones.",
+                    "Métricas de engagement por artículo."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-036",
+                story: "Como cliente, quiero participar en challenges grupales para aumentar mi motivación mediante competencia sana.",
+                criteria: [
+                    "Creación de challenges por administradores.",
+                    "Tabla de posiciones en tiempo real.",
+                    "Premios para ganadores."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-037",
+                story: "Como entrenador, quiero un sistema de evaluación de técnica de ejercicios para corregir a mis clientes.",
+                criteria: [
+                    "Grabación de videos cortos.",
+                    "Anotaciones sobre técnica.",
+                    "Compartición segura con cliente."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-038",
+                story: "Como recepcionista, quiero un sistema de gestión de lockers para asignarlos a los clientes.",
+                criteria: [
+                    "Mapa visual de lockers disponibles.",
+                    "Asignación temporal por día.",
+                    "Control de llaves/combinations."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-039",
+                story: "Como cliente, quiero un perfil público opcional para conectar con otros miembros con objetivos similares.",
+                criteria: [
+                    "Configuración de privacidad.",
+                    "Sistema de amigos/conexiones.",
+                    "Chat entre miembros."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-040",
+                story: "Como gerente, quiero un sistema de gestión de quejas y sugerencias para mejorar continuamente.",
+                criteria: [
+                    "Formulario anónimo opcional.",
+                    "Seguimiento de estado de quejas.",
+                    "Métricas de resolución."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-041",
+                story: "Como cliente, quiero un sistema de reserva de espacios libres (como estudio de yoga) para prácticas individuales.",
+                criteria: [
+                    "Visualización de espacios disponibles.",
+                    "Reserva por bloques de tiempo.",
+                    "Recordatorios de reserva."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-042",
+                story: "Como nutricionista, quiero un recetario saludable para recomendar a mis clientes según sus planes.",
+                criteria: [
+                    "Búsqueda por ingredientes o restricciones.",
+                    "Valores nutricionales calculados.",
+                    "Lista de compras generada automáticamente."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-043",
+                story: "Como administrador, quiero integración con redes sociales para publicar automáticamente logros de clientes.",
+                criteria: [
+                    "Autorización de clientes para compartir.",
+                    "Publicaciones programadas.",
+                    "Métricas de engagement."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-044",
+                story: "Como cliente, quiero un sistema de evaluación de entrenadores para ayudar a mejorar el servicio.",
+                criteria: [
+                    "Evaluación anónima por clase/sesión.",
+                    "Puntuación por categorías.",
+                    "Feedback constructivo opcional."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-045",
+                story: "Como entrenador, quiero un sistema de planificación de clases grupales con música y coreografías.",
+                criteria: [
+                    "Biblioteca de ejercicios y coreografías.",
+                    "Selección de listas de reproducción.",
+                    "Notas para asistente."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-046",
+                story: "Como recepcionista, quiero un sistema de control de visitas para invitados de miembros.",
+                criteria: [
+                    "Registro de invitados por miembro.",
+                    "Límite de invitaciones por mes.",
+                    "Cobro automático de guest pass."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-047",
+                story: "Como cliente, quiero un modo 'turista' en la app con información en inglés para visitantes extranjeros.",
+                criteria: [
+                    "Selector de idioma.",
+                    "Contenido adaptado a turistas.",
+                    "Información sobre Cusco y altitud."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-048",
+                story: "Como gerente, quiero un sistema de fidelización para recompensar a los clientes más longevos.",
+                criteria: [
+                    "Descuentos progresivos por antigüedad.",
+                    "Beneficios exclusivos para miembros VIP.",
+                    "Eventos especiales para clientes fieles."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-049",
+                story: "Como cliente, quiero recordatorios de hidratación durante mi entrenamiento basados en la intensidad.",
+                criteria: [
+                    "Configuración de recordatorios.",
+                    "Seguimiento de consumo de agua.",
+                    "Recomendaciones personalizadas."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-050",
+                story: "Como administrador, quiero un sistema de gestión de eventos especiales (talleres, competencias).",
+                criteria: [
+                    "Calendario de eventos público.",
+                    "Sistema de inscripciones online.",
+                    "Control de asistencia a eventos."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-051",
+                story: "Como cliente, quiero un diario de entrenamiento para registrar cómo me siento después de cada sesión.",
+                criteria: [
+                    "Entradas rápidas de estado de ánimo.",
+                    "Seguimiento de energía y dolor muscular.",
+                    "Correlación con progreso físico."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-052",
+                story: "Como entrenador, quiero un sistema de planificación nutricional básica integrado con las rutinas.",
+                criteria: [
+                    "Recomendaciones calóricas según objetivos.",
+                    "Sugerencias de comidas pre/post entrenamiento.",
+                    "Ajuste automático según progreso."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-053",
+                story: "Como recepcionista, quiero un sistema de control de temperatura corporal para cumplir con protocolos sanitarios.",
+                criteria: [
+                    "Registro rápido de temperatura.",
+                    "Alertas por fiebre.",
+                    "Historial de controles."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-054",
+                story: "Como cliente, quiero poder donar mis puntos de fidelización a causas benéficas.",
+                criteria: [
+                    "Selección de causas disponibles.",
+                    "Confirmación de donación.",
+                    "Certificado de donación."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-055",
+                story: "Como gerente, quiero un sistema de gestión de empleados con horarios, vacaciones y nóminas.",
+                criteria: [
+                    "Control de asistencia del personal.",
+                    "Solicitud y aprobación de vacaciones.",
+                    "Cálculo automático de nóminas."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-056",
+                story: "Como cliente, quiero realidad aumentada para guiarme en la ejecución correcta de ejercicios nuevos.",
+                criteria: [
+                    "Visualización de posturas correctas.",
+                    "Detección de errores en tiempo real.",
+                    "Sugerencias de corrección."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-057",
+                story: "Como nutricionista, quiero un sistema de seguimiento de hábitos alimenticios mediante fotos de comidas.",
+                criteria: [
+                    "Subida de fotos desde la app.",
+                    "Anotaciones del profesional.",
+                    "Evolución visual de hábitos."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-058",
+                story: "Como administrador, quiero un sistema de reservas para uso de instalaciones especiales (sauna, piscina).",
+                criteria: [
+                    "Control de aforo por instalación.",
+                    "Tiempos máximos de uso.",
+                    "Recordatorios de reserva."
+                ],
+                priority: "alta"
+            },
+            {
+                code: "HU-059",
+                story: "Como cliente, quiero un sistema de podcasts/audios motivacionales para escuchar durante mi entrenamiento.",
+                criteria: [
+                    "Biblioteca de contenido audio.",
+                    "Listas de reproducción por tipo de entrenamiento.",
+                    "Descarga para uso offline."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-060",
+                story: "Como entrenador, quiero un sistema de medición de frecuencia cardiaca integrado con las rutinas.",
+                criteria: [
+                    "Conexión con monitores cardiacos.",
+                    "Zonas de entrenamiento visualizadas.",
+                    "Ajuste de intensidad según FC."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-061",
+                story: "Como recepcionista, quiero un sistema de gestión de encomiendas y mensajes para clientes.",
+                criteria: [
+                    "Registro de encomiendas recibidas.",
+                    "Notificación al cliente.",
+                    "Control de retiro con identificación."
+                ],
+                priority: "media"
+            },
+            {
+                code: "HU-062",
+                story: "Como gerente, quiero un sistema de inteligencia de negocios predictivo para anticipar tendencias.",
+                criteria: [
+                    "Análisis predictivo de membresías.",
+                    "Alertas tempranas de cambios.",
+                    "Recomendaciones basadas en datos."
+                ],
+                priority: "alta"
+            }
+        ];
+
+        // Datos para la matriz de análisis (Paso 6)
+ const analysisMatrix = [
+    { id: "Historia 1", unambiguous: true, testable: true, binding: true, realNeeds: false, stakeholderVocab: false, acceptable: true, complete: true, consistent: false, feasible: false },
+    { id: "Historia 2", unambiguous: false, testable: false, binding: false, realNeeds: false, stakeholderVocab: true, acceptable: true, complete: true, consistent: true, feasible: false },
+    { id: "Historia 3", unambiguous: false, testable: true, binding: false, realNeeds: true, stakeholderVocab: false, acceptable: false, complete: true, consistent: true, feasible: true },
+    { id: "Historia 4", unambiguous: false, testable: false, binding: false, realNeeds: false, stakeholderVocab: true, acceptable: false, complete: true, consistent: true, feasible: false },
+    { id: "Historia 5", unambiguous: false, testable: true, binding: false, realNeeds: true, stakeholderVocab: false, acceptable: false, complete: true, consistent: false, feasible: false },
+    { id: "Historia 6", unambiguous: false, testable: false, binding: true, realNeeds: false, stakeholderVocab: false, acceptable: false, complete: false, consistent: true, feasible: false },
+    { id: "Historia 7", unambiguous: true, testable: false, binding: true, realNeeds: true, stakeholderVocab: false, acceptable: true, complete: true, consistent: false, feasible: false },
+    { id: "Historia 8", unambiguous: true, testable: true, binding: true, realNeeds: false, stakeholderVocab: false, acceptable: true, complete: true, consistent: false, feasible: false },
+    { id: "Historia 9", unambiguous: false, testable: false, binding: true, realNeeds: false, stakeholderVocab: true, acceptable: false, complete: true, consistent: true, feasible: true },
+    { id: "Historia 10", unambiguous: false, testable: true, binding: false, realNeeds: true, stakeholderVocab: false, acceptable: false, complete: false, consistent: true, feasible: true },
+    { id: "Historia 11", unambiguous: false, testable: false, binding: true, realNeeds: false, stakeholderVocab: true, acceptable: false, complete: false, consistent: false, feasible: false },
+    { id: "Historia 12", unambiguous: false, testable: false, binding: true, realNeeds: true, stakeholderVocab: true, acceptable: false, complete: false, consistent: false, feasible: false },
+    { id: "Historia 13", unambiguous: false, testable: false, binding: true, realNeeds: false, stakeholderVocab: true, acceptable: false, complete: false, consistent: false, feasible: true },
+    { id: "Historia 14", unambiguous: false, testable: false, binding: true, realNeeds: true, stakeholderVocab: false, acceptable: true, complete: true, consistent: false, feasible: false },
+    { id: "Historia 15", unambiguous: true, testable: true, binding: true, realNeeds: false, stakeholderVocab: true, acceptable: false, complete: false, consistent: true, feasible: true },
+    { id: "Historia 16", unambiguous: false, testable: false, binding: false, realNeeds: false, stakeholderVocab: true, acceptable: true, complete: true, consistent: true, feasible: false },
+    { id: "Historia 17", unambiguous: true, testable: true, binding: false, realNeeds: true, stakeholderVocab: false, acceptable: true, complete: true, consistent: false, feasible: true },
+    { id: "Historia 18", unambiguous: false, testable: false, binding: false, realNeeds: true, stakeholderVocab: true, acceptable: false, complete: false, consistent: true, feasible: true },
+    { id: "Historia 19", unambiguous: true, testable: true, binding: false, realNeeds: true, stakeholderVocab: false, acceptable: true, complete: true, consistent: true, feasible: true },
+    { id: "Historia 20", unambiguous: false, testable: true, binding: true, realNeeds: true, stakeholderVocab: false, acceptable: true, complete: true, consistent: false, feasible: true },
+    { id: "Historia 21", unambiguous: true, testable: true, binding: true, realNeeds: false, stakeholderVocab: false, acceptable: true, complete: false, consistent: false, feasible: false },
+    { id: "Historia 22", unambiguous: false, testable: false, binding: false, realNeeds: true, stakeholderVocab: false, acceptable: true, complete: true, consistent: true, feasible: true },
+    { id: "Historia 23", unambiguous: true, testable: false, binding: true, realNeeds: false, stakeholderVocab: false, acceptable: false, complete: true, consistent: false, feasible: false },
+    { id: "Historia 24", unambiguous: true, testable: false, binding: false, realNeeds: true, stakeholderVocab: false, acceptable: false, complete: false, consistent: false, feasible: true },
+    { id: "Historia 25", unambiguous: true, testable: false, binding: true, realNeeds: false, stakeholderVocab: true, acceptable: false, complete: false, consistent: false, feasible: false },
+    { id: "Historia 26", unambiguous: false, testable: true, binding: true, realNeeds: true, stakeholderVocab: true, acceptable: true, complete: true, consistent: false, feasible: true },
+    { id: "Historia 27", unambiguous: true, testable: false, binding: true, realNeeds: false, stakeholderVocab: true, acceptable: true, complete: true, consistent: false, feasible: true },
+    { id: "Historia 28", unambiguous: true, testable: true, binding: false, realNeeds: false, stakeholderVocab: false, acceptable: true, complete: false, consistent: false, feasible: false },
+    { id: "Historia 29", unambiguous: false, testable: true, binding: true, realNeeds: true, stakeholderVocab: true, acceptable: false, complete: true, consistent: true, feasible: false },
+    { id: "Historia 30", unambiguous: true, testable: false, binding: true, realNeeds: false, stakeholderVocab: false, acceptable: false, complete: false, consistent: false, feasible: false },
+    { id: "Historia 31", unambiguous: true, testable: true, binding: false, realNeeds: false, stakeholderVocab: true, acceptable: true, complete: false, consistent: true, feasible: false },
+    { id: "Historia 32", unambiguous: false, testable: true, binding: false, realNeeds: true, stakeholderVocab: true, acceptable: true, complete: false, consistent: true, feasible: false },
+    { id: "Historia 33", unambiguous: true, testable: false, binding: false, realNeeds: false, stakeholderVocab: true, acceptable: true, complete: true, consistent: false, feasible: false },
+    { id: "Historia 34", unambiguous: true, testable: false, binding: true, realNeeds: false, stakeholderVocab: true, acceptable: true, complete: false, consistent: true, feasible: false },
+    { id: "Historia 35", unambiguous: true, testable: false, binding: true, realNeeds: true, stakeholderVocab: false, acceptable: true, complete: true, consistent: false, feasible: false },
+    { id: "Historia 36", unambiguous: true, testable: false, binding: true, realNeeds: true, stakeholderVocab: true, acceptable: false, complete: true, consistent: true, feasible: true },
+    { id: "Historia 37", unambiguous: true, testable: false, binding: true, realNeeds: false, stakeholderVocab: false, acceptable: false, complete: false, consistent: true, feasible: true },
+    { id: "Historia 38", unambiguous: false, testable: false, binding: true, realNeeds: false, stakeholderVocab: true, acceptable: true, complete: true, consistent: false, feasible: false },
+    { id: "Historia 39", unambiguous: false, testable: false, binding: true, realNeeds: false, stakeholderVocab: true, acceptable: true, complete: true, consistent: true, feasible: true },
+    { id: "Historia 40", unambiguous: true, testable: false, binding: false, realNeeds: false, stakeholderVocab: true, acceptable: true, complete: false, consistent: false, feasible: false },
+    { id: "Historia 41", unambiguous: true, testable: true, binding: true, realNeeds: true, stakeholderVocab: true, acceptable: false, complete: true, consistent: false, feasible: false },
+    { id: "Historia 42", unambiguous: false, testable: false, binding: true, realNeeds: true, stakeholderVocab: true, acceptable: false, complete: false, consistent: true, feasible: false },
+    { id: "Historia 43", unambiguous: false, testable: false, binding: true, realNeeds: true, stakeholderVocab: true, acceptable: false, complete: true, consistent: false, feasible: true },
+    { id: "Historia 44", unambiguous: true, testable: false, binding: true, realNeeds: false, stakeholderVocab: true, acceptable: false, complete: false, consistent: true, feasible: false },
+    { id: "Historia 45", unambiguous: false, testable: true, binding: false, realNeeds: true, stakeholderVocab: false, acceptable: true, complete: true, consistent: true, feasible: false },
+    { id: "Historia 46", unambiguous: false, testable: false, binding: true, realNeeds: true, stakeholderVocab: true, acceptable: false, complete: false, consistent: false, feasible: true },
+    { id: "Historia 47", unambiguous: false, testable: true, binding: true, realNeeds: false, stakeholderVocab: true, acceptable: true, complete: true, consistent: true, feasible: true },
+    { id: "Historia 48", unambiguous: false, testable: true, binding: false, realNeeds: false, stakeholderVocab: false, acceptable: true, complete: true, consistent: true, feasible: false },
+    { id: "Historia 49", unambiguous: true, testable: false, binding: false, realNeeds: true, stakeholderVocab: false, acceptable: false, complete: false, consistent: true, feasible: false },
+    { id: "Historia 50", unambiguous: true, testable: false, binding: false, realNeeds: true, stakeholderVocab: true, acceptable: true, complete: false, consistent: false, feasible: false }
+];
+
+        // Datos para priorización (Paso 7)
+        const prioritizationData = [
+            { id: "HU-001", story: "Registro de clientes nuevos", businessValue: 10, userDesirability: 9, deliveryCost: 2, technicalRisk: 1, nonUseRisk: 1, finalPriority: 9.4, decision: "MVP - INCLUIR" },
+            { id: "HU-002", story: "Login de clientes", businessValue: 10, userDesirability: 10, deliveryCost: 2, technicalRisk: 1, nonUseRisk: 1, finalPriority: 9.6, decision: "MVP - INCLUIR" },
+            // ... más datos de priorización
+        ];
+
+        // Estado de la aplicación
+        let currentFilter = "all";
+        let currentSort = "code";
+        let isDarkMode = false;
+        let isSortedAZ = true;
+
+        // Elementos DOM
+        const tabContents = document.querySelectorAll('.tab-content');
+        const navButtons = document.querySelectorAll('.nav-btn');
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const printBtn = document.getElementById('printBtn');
+        const startProcessBtn = document.getElementById('startProcessBtn');
+        const cardsContainer = document.getElementById('cardsContainer');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const sortBtn = document.getElementById('sortBtn');
+        const storyModal = document.getElementById('storyModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalContent = document.getElementById('modalContent');
+        const toast = document.getElementById('toast');
+        const matrixBody = document.getElementById('matrixBody');
+
+        // Inicializar la aplicación
+        function init() {
+            setupEventListeners();
+            renderStories();
+            renderAnalysisMatrix();
+        }
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            // Navegación entre pestañas
+            navButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Quitar clase active de todos los botones
+                    navButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Añadir clase active al botón clickeado
+                    this.classList.add('active');
+                    
+                    // Ocultar todos los contenidos de pestañas
+                    tabContents.forEach(content => content.classList.remove('active'));
+                    
+                    // Mostrar el contenido de la pestaña correspondiente
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+            
+            // Modo oscuro
+            darkModeToggle.addEventListener('click', toggleDarkMode);
+            
+            // Imprimir
+            printBtn.addEventListener('click', () => window.print());
+            
+            // Comenzar proceso
+            startProcessBtn.addEventListener('click', () => {
+                document.querySelector('[data-tab="step1"]').click();
+                showToast('Proceso de elicitación iniciado', 'success');
+            });
+            
+            // Filtros de historias
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (this.id === 'sortBtn') {
+                        toggleSort();
+                        return;
+                    }
+                    
+                    // Quitar clase active de todos los botones
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Añadir clase active al botón clickeado
+                    this.classList.add('active');
+                    
+                    currentFilter = this.getAttribute('data-filter');
+                    renderStories();
+                });
+            });
+            
+            // Búsqueda
+            searchBtn.addEventListener('click', searchStories);
+            searchInput.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    searchStories();
+                }
+            });
+            
+            // Modal
+            closeModal.addEventListener('click', closeStoryModal);
+            storyModal.addEventListener('click', (e) => {
+                if (e.target === storyModal) {
+                    closeStoryModal();
+                }
+            });
+            
+            // Cargar preferencias guardadas
+            const savedDarkMode = localStorage.getItem('darkMode') === 'true';
+            if (savedDarkMode) {
+                toggleDarkMode();
+            }
+        }
+
+        // Renderizar las historias en el DOM
+        function renderStories() {
+            cardsContainer.innerHTML = '';
+            
+            // Filtrar y ordenar las historias
+            let filteredStories = filterStories(userStories, currentFilter);
+            filteredStories = sortStories(filteredStories, currentSort, isSortedAZ);
+            
+            // Crear las tarjetas
+            filteredStories.forEach(story => {
+                const card = createStoryCard(story);
+                cardsContainer.appendChild(card);
+            });
+        }
+
+        // Renderizar matriz de análisis
+        function renderAnalysisMatrix() {
+            matrixBody.innerHTML = '';
+            
+            analysisMatrix.forEach(item => {
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td class="criteria-cell">${item.id}</td>
+                    <td>${item.unambiguous ? '<span class="check-mark">✓</span>' : '<span class="cross-mark">✗</span>'}</td>
+                    <td>${item.testable ? '<span class="check-mark">✓</span>' : '<span class="cross-mark">✗</span>'}</td>
+                    <td>${item.binding ? '<span class="check-mark">✓</span>' : '<span class="cross-mark">✗</span>'}</td>
+                    <td>${item.realNeeds ? '<span class="check-mark">✓</span>' : '<span class="cross-mark">✗</span>'}</td>
+                    <td>${item.stakeholderVocab ? '<span class="check-mark">✓</span>' : '<span class="cross-mark">✗</span>'}</td>
+                    <td>${item.acceptable ? '<span class="check-mark">✓</span>' : '<span class="cross-mark">✗</span>'}</td>
+                    <td>${item.complete ? '<span class="check-mark">✓</span>' : '<span class="cross-mark">✗</span>'}</td>
+                    <td>${item.consistent ? '<span class="check-mark">✓</span>' : '<span class="cross-mark">✗</span>'}</td>
+                    <td>${item.feasible ? '<span class="check-mark">✓</span>' : '<span class="cross-mark">✗</span>'}</td>
+                `;
+                
+                matrixBody.appendChild(row);
+            });
+        }
+
+        // Filtrar historias según el filtro activo
+        function filterStories(stories, filter) {
+            if (filter === 'all') return stories;
+            return stories.filter(story => story.priority === filter);
+        }
+
+        // Ordenar historias
+        function sortStories(stories, sortBy, ascending = true) {
+            return [...stories].sort((a, b) => {
+                let aValue, bValue;
+                
+                if (sortBy === 'code') {
+                    aValue = a.code;
+                    bValue = b.code;
+                } else if (sortBy === 'priority') {
+                    // Dar peso numérico a las prioridades
+                    const priorityWeight = { 'alta': 1, 'media': 2, 'baja': 3 };
+                    aValue = priorityWeight[a.priority] || 3;
+                    bValue = priorityWeight[b.priority] || 3;
+                }
+                
+                if (aValue < bValue) return ascending ? -1 : 1;
+                if (aValue > bValue) return ascending ? 1 : -1;
+                return 0;
+            });
+        }
+
+        // Crear una tarjeta de historia
+        function createStoryCard(story) {
+            const card = document.createElement('div');
+            card.className = 'story-card';
+            card.setAttribute('data-priority', story.priority);
+            card.setAttribute('data-code', story.code);
+            
+            card.innerHTML = `
+                <div class="story-code">${story.code}</div>
+                <p class="story-text">${story.story}</p>
+                <div class="criteria-title">Criterios de aceptación:</div>
+                <ul class="criteria-list">
+                    ${story.criteria.map(criterion => `<li>${criterion}</li>`).join('')}
+                </ul>
+                <span class="priority ${story.priority}">${story.priority === 'alta' ? 'Alta' : 'Media'}</span>
+            `;
+            
+            // Añadir evento de clic para abrir el modal
+            card.addEventListener('click', () => openStoryModal(story));
+            
+            return card;
+        }
+
+        // Abrir modal con los detalles de la historia
+        function openStoryModal(story) {
+            modalContent.innerHTML = `
+                <div class="story-code">${story.code}</div>
+                <p class="story-text">${story.story}</p>
+                <div class="criteria-title">Criterios de aceptación:</div>
+                <ul class="criteria-list">
+                    ${story.criteria.map(criterion => `<li>${criterion}</li>`).join('')}
+                </ul>
+                <div style="margin-top: 20px;">
+                    <span class="priority ${story.priority}">Prioridad: ${story.priority === 'alta' ? 'Alta' : 'Media'}</span>
+                </div>
+            `;
+            
+            storyModal.style.display = 'flex';
+        }
+
+        // Cerrar modal
+        function closeStoryModal() {
+            storyModal.style.display = 'none';
+        }
+
+        // Buscar historias
+        function searchStories() {
+            const query = searchInput.value.toLowerCase().trim();
+            
+            if (query === '') {
+                renderStories();
+                return;
+            }
+            
+            const filteredStories = userStories.filter(story => 
+                story.code.toLowerCase().includes(query) ||
+                story.story.toLowerCase().includes(query) ||
+                story.criteria.some(criterion => criterion.toLowerCase().includes(query))
+            );
+            
+            cardsContainer.innerHTML = '';
+            filteredStories.forEach(story => {
+                const card = createStoryCard(story);
+                cardsContainer.appendChild(card);
+            });
+            
+            // Mostrar toast con resultados
+            showToast(`Se encontraron ${filteredStories.length} resultados`);
+        }
+
+        // Mostrar notificación toast
+        function showToast(message, type = 'info') {
+            toast.textContent = message;
+            toast.style.display = 'flex';
+            
+            // Cambiar color según el tipo
+            if (type === 'success') {
+                toast.style.backgroundColor = 'var(--success-color)';
+            } else if (type === 'error') {
+                toast.style.backgroundColor = 'var(--danger-color)';
+            } else {
+                toast.style.backgroundColor = 'var(--primary-color)';
+            }
+            
+            // Ocultar después de 3 segundos
+            setTimeout(() => {
+                toast.style.display = 'none';
+            }, 3000);
+        }
+
+        // Alternar modo oscuro
+        function toggleDarkMode() {
+            isDarkMode = !isDarkMode;
+            document.body.classList.toggle('dark-mode', isDarkMode);
+            darkModeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+            darkModeToggle.title = isDarkMode ? 'Modo claro' : 'Modo oscuro';
+            
+            // Guardar preferencia en localStorage
+            localStorage.setItem('darkMode', isDarkMode);
+        }
+
+        // Alternar ordenación
+        function toggleSort() {
+            isSortedAZ = !isSortedAZ;
+            sortBtn.textContent = isSortedAZ ? 'Ordenar A-Z' : 'Ordenar Z-A';
+            renderStories();
+        }
+
+        // Inicializar la aplicación cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
